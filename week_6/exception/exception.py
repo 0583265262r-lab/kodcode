@@ -1,4 +1,4 @@
-import random
+# import random
 # תרגיל 1
 # def safe_int(s):
 #     try:
