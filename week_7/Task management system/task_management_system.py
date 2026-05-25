@@ -17,47 +17,66 @@ def load_tasks(filename):
 # print(load_tasks("tasks.txt"))
 # 
 def save_tasks(filename, tasks):
-    with open(filename,"w") as f:
-        tasks=tasks.split("\n")
-        for item in tasks:
-            f.write(f"{item}\n")
+    try:
+        with open(filename,"w") as f:
+            tasks=tasks.split("\n")
+            for item in tasks:
+                f.write(f"{item}\n")
+    except FileNotFoundError as e:
+        print(f"file not exist {e}")
 # save_tasks("tasks.txt",task)
 # 
 def add_task(filename,description):
-    with open(filename,"r+") as f:
-        lines=f.readlines()
-        id=len(lines)+1
-        f.write(f"\n{int(id)+1}|pending|{description}")
+    try:
+        with open(filename,"r+") as f:
+            lines=f.readlines()
+            id=len(lines)
+            f.write(f"{int(id)+1}|pending|{description}\n")
+
+    except FileNotFoundError as e:
+        print(f"file not exist {e}")
 # add_task("tasks.txt","asd")
 # 
 def complete_task(filename, task_id):
     task_is_exist=False
-    line=[]
-    with open(filename,"r") as f:
-        f=f.readlines()
-        for l in f:
-            l=l.strip().split("|")
-            if int(l[0]) == task_id:
-                l = f"{task_id}|done|{l[2]}"
-                line.append(l)
-                task_is_exist=True
-                continue
-            line.append(f"{l[0]}|{l[1]}|{l[2]}")
-        with open(filename,"w") as f:
-            for i in line:
-                f.write(f"{i}\n")
-        if not task_is_exist:
-            print(f"the ID {task_id} not exist")
+    try:
+        with open(filename,"r") as f:
+            line=[]
+            f=f.readlines()
+            for l in f:
+                l=l.strip().split("|")
+                if int(l[0]) == task_id:
+                    l = f"{task_id}|done|{l[2]}"
+                    line.append(l)
+                    task_is_exist=True
+                    continue
+                line.append(f"{l[0]}|{l[1]}|{l[2]}")
+            with open(filename,"w") as f:
+                for i in line:
+                    f.write(f"{i}\n")
+            if not task_is_exist:
+                print(f"the ID {task_id} not exist")
+    except FileNotFoundError as e:
+        print(f"file not exist {e}")
 # complete_task("tasks.txt",2)
 def list_tasks(filename):
-    with open (filename,"r") as f:
-        line=f.readlines()
-        for l in line:
-            l=l.strip().split("|")
-            if l[1] == "done":
-                print(f"{" ".join(l)} [✔️ ]")
+    try:
+        with open (filename,"r") as f:
+            line=f.readlines()
+            if len(line)== 1:
+                print("the file is empty")
             else:
-                print(f"{" ".join(l)} [ ]")
+                for l in line:
+                    l=l.strip().split("|")
+                    if l[1] == "done":
+                        print(f"{" ".join(l)} [✔️ ]")
+                    else:
+                        print(f"{" ".join(l)} [ ]")
+            
+    except FileNotFoundError as e:
+        print(f"file not exist {e}")
+    
+    
 # list_tasks("tasks.txt")
 
 def main():
