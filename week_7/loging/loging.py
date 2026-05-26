@@ -62,20 +62,31 @@ from logging_setup import get_logger
 #     logger.info(f"The user's {email} login was successful")
 # register_user("acvsv",3563763178,119)
 # 
-def module1():
-    Building_logger=get_logger("Building_logger")
-    Building_logger.info("start to build")
-    Building_logger.warning("the build is slow")
-    Building_logger.error("the build failed")
+# def module1():
+#     Building_logger=get_logger("Building_logger")
+#     Building_logger.info("start to build")
+#     Building_logger.warning("the build is slow")
+#     Building_logger.error("the build failed")
     
-module1()
-def check_stock():
-    pass
+# module1()
+# 
+formatter = logging.Formatter('%(asctime)s | [Req: %(request_id)s] [User: %(user_id)s] | %(levelname)s | %(message)s')
 
-def process_request(request_id, user_id, action):
-    pass
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
 
+logger = logging.getLogger('tracking_sys')
+logger.setLevel(logging.INFO)
+logger.addHandler(console_handler)
 
+def process_request(req_id, user_id, action):
+    context = {"request_id" : req_id, "user_id" : user_id}
+
+    logger.info(f'Start action: {action}', extra=context)
+    logger.info(f'validate user for action {action}', extra=context)
+    logger.info(f'action {action} complete', extra=context)
+
+process_request(1234, 789, 'payment')
 
 
 

@@ -1,0 +1,15 @@
+2026-05-26 15:49:19,459|INFO|Building_logger|start to build
+2026-05-26 15:49:19,459|WARNING|Building_logger|the build is slow
+2026-05-26 15:49:19,459|ERROR|Building_logger|the build failed
+2026-05-26 15:49:19,459|INFO|process_request|Start action: payment
+2026-05-26 15:49:19,459|INFO|process_request|validate user for action payment
+2026-05-26 15:49:19,459|INFO|process_request|action payment complete
+2026-05-26 15:49:32,779|INFO|process_request|Start action: payment
+2026-05-26 15:49:32,779|INFO|process_request|validate user for action payment
+2026-05-26 15:49:32,779|INFO|process_request|action payment complete
+2026-05-26 15:50:20,413|INFO|process_request|Start action: payment
+2026-05-26 15:50:20,413|INFO|process_request|validate user for action payment
+2026-05-26 15:50:20,421|INFO|process_request|action payment complete
+2026-05-26 15:50:33,785|INFO|process_request|Start action: payment
+2026-05-26 15:50:33,785|INFO|process_request|validate user for action payment
+2026-05-26 15:50:33,785|INFO|process_request|action payment complete
