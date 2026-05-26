@@ -38,7 +38,7 @@ def save_results(averages, output_filename):
         of.write("=== Student Results === \n")
         for g in averages:
             list_of_grades.append([averages[g],g])
-        a=sorted(list_of _grades,reverse=True)
+        a=sorted(list_of_grades,reverse=True)
         count=1
         for g in a:
             of.write(f"{count}. {g[1]}: {g[0]}\n")
