@@ -3,7 +3,8 @@ from fastapi import FastAPI
 app = FastAPI()
 grades = {"1":{"name":"Moshe","grade":88},
           "2":{"name":"Avi","grade":98},
-          "3":{"name":"David","grade":77}
+          "3":{"name":"David","grade":77},
+          "4":{"name":"Aharon","grade":100}
            }
 
 @app.get("/students")
