@@ -26,6 +26,17 @@ def create_schema():
     cursor.close()
     conn.close()
 
+def get_schema(name) -> list:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(f"DESCRIBE {name}")
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    # each row is (Field, Type, Null, Key, Default, Extra)
+    return [{"column": row[0], "type": row[1]} for row in rows]
+    
+
 
 if __name__ == "__main__":
     create_schema()
