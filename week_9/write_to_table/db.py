@@ -56,17 +56,30 @@ def update(soldier_id, data: dict) -> bool:
         set_parts.append(f"{key} = %s")
     set_clause = ", ".join(set_parts)
 
-    sql = "UPDATE soldiers SET" + set_clause + "WHERE id = %s"
+    sql = f"UPDATE soldiers SET {set_clause} WHERE id = %s"
     values = list(data.values()) + [soldier_id]
     
     cursor.execute(sql,values)
     conn.commit()
 
-    changed = cursor.rowcount >0
+    changed = cursor.rowcount > 0
     cursor.close()
     conn.close()
 
     return changed
+
+def delete(soldier_id: int) ->bool:
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    sql = "DELETE FROM soldiers WHERE id = %s"
+    cursor.execute(sql,(soldier_id,))
+    conn.commit()
+    deleted = cursor.rowcount > 0
+    cursor.close()
+    conn.close()
+    return deleted
+
 
 
 
@@ -74,10 +87,10 @@ def update(soldier_id, data: dict) -> bool:
 
 
 if __name__ == "__main__":
-    print(get_all())
+    # print(get_all())
     print(get_by_id(2))
-    print(create("avi","privet","8200"))
-    print(update(2,{"name":"moshe"}))
+    # print(create("avi","privet","8200"))
+    print(update(6,{'active':False}))
 
 
 
