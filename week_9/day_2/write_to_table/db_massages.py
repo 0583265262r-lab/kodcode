@@ -38,7 +38,21 @@ def update_message(message_id: int, data: dict) -> bool:
     cursor = conn.cursor()
     
     set_parts = []
-    for 
+    for key in data.keys():
+        set_parts.append(f"{key} = %s")
+    set_clause = ", ".join(set_parts)
+
+    sql = f"UPDATE intel_messages SET {set_clause} WHERE id = %s"
+    values = list(data.values()) + [message_id]
+    
+    cursor.execute(sql,values)
+    conn.commit()
+
+    changed = cursor.rowcount > 0
+    cursor.close()
+    conn.close()
+
+    return changed
 
 
 
