@@ -40,9 +40,7 @@ def create(name, soldier_rank, unit) -> int:
     values = (name, soldier_rank, unit)
     cursor.execute(sql,values)
     conn.commit()
-
     new_id = cursor.lastrowid
-
     cursor.close()
     conn.close()
     return new_id
@@ -87,9 +85,9 @@ def delete(soldier_id: int) ->bool:
 
 
 if __name__ == "__main__":
-    # print(get_all())
+    print(get_all())
     print(get_by_id(2))
-    # print(create("avi","privet","8200"))
+    print(create("avi","privet","8200"))
     print(update(6,{'active':False}))
 
 
