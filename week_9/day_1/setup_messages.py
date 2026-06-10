@@ -33,7 +33,7 @@ def get_schema(name) -> list:
     rows = cursor.fetchall()
     cursor.close()
     conn.close()
-    # each row is (Field, Type, Null, Key, Default, Extra)
+    
     return [{"column": row[0], "type": row[1]} for row in rows]
     
 
