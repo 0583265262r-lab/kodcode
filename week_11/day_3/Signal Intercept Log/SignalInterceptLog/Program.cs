@@ -26,11 +26,12 @@ class SignalInterceptLog
             }
             else if (Choice == "2")
             {
+                calibration(Id, SignalStrength);
 
             }
             else if (Choice == "3")
             {
-
+                GetAll(Id, Classification, SignalStrength);
             }
             else if (Choice == "4")
             {
@@ -49,21 +50,81 @@ class SignalInterceptLog
     {
         Console.WriteLine("please enter ID: ");
         id.Add(Console.ReadLine());
+        int n = 0;
+        while (n== 0)
+        {
+            Classification newStatus;
+            Console.WriteLine("please enter a classification: ");
+            string status = Console.ReadLine();
+            if (Classification.TryParse(status, out newStatus))
+            {
+                if (GetClassification(newStatus) != "Unknown status")
+                {
+                    classification.Add(GetClassification(newStatus));
+                    n = 1;
+                }
 
-        Console.WriteLine("please enter a classification: ");
-        Classification status = Console.ReadLine();
-        classification.Add(GetClassification(status));
+                    
 
+            }
+        }
+
+        int s = 0;
+        while ( s == 0)
+        {
+            Console.WriteLine("please enter a signalstrength: ");
+            string strStrength = Console.ReadLine();
+            if (double.TryParse(strStrength, out double strength))
+            {
+                signalstrength.Add(strength);
+                s = 1;
+            }
+            else
+            {
+                Console.WriteLine("invalid input");
+            }
+        }
+
+        
+    }
+    static int FindById(List<string> id)
+    {
+        Console.WriteLine("please enter ID: ");
+        string currentId = Console.ReadLine();
+        for (int i = 0; i<id.Count; i++)
+        {
+            if (id[i] == currentId)
+            {
+                return i;
+            }
+        }
+        Console.WriteLine("ID not found");
+        return -1;
+    }
+    static void calibration(List<string> id, List<double> signalstrength)
+    {
+        int currentId = 0;
+        int n = 1;
+        while (n>0)
+        {
+            currentId = FindById(id);
+            if (currentId >= 0)
+            {
+                n = 0;
+            }
+
+        }
         Console.WriteLine("please enter a signalstrength: ");
         string strStrength = Console.ReadLine();
-        if (double.TryParse(strStrength,out double strength))
+        if (double.TryParse(strStrength, out double strength))
         {
-            signalstrength.Add(strength);
+            signalstrength[currentId] = strength;
         }
         else
         {
             Console.WriteLine("invalid input");
         }
+
     }
     static string GetClassification(Classification status)
     {
@@ -80,8 +141,11 @@ class SignalInterceptLog
                 return "Unknown status";
         }
     }
-    static void SignalStrength(double? signal)
+    static void GetAll(List<string> id, List<string> classification, List<double> signalstrength)
     {
-
+        for (int i = 0; i < id.Count; i++)
+        {
+            Console.WriteLine($"[id:{id[i]}, classification:{classification[i]}, signalstrength:{signalstrength[i]}]");
+        }
     }
 }
