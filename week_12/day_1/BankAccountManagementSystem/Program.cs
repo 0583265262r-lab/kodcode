@@ -78,14 +78,19 @@ class ManagementSystem
         => $"Account Number: {_accountNumber} | Owner Name: {_ownerName} | Balance : {_balance} | account type : {_accountType} | Is Active: {_isActive}";
     public void Deposit(double amount)
     {
-        if (amount<0 )
-        {
-            Console.WriteLine("Error: amount must be greater than 0");
-        }
-        else
+        if (amount>0 & _isActive)
         {
             _balance += amount;
             _transactionHistory.Add($"Depositing {amount}$ to account {_accountNumber}");
+            
+        }
+        else if (amount<0)
+        {
+            Console.WriteLine("Error: amount must be greater than 0.");
+        }
+        else if(_isActive == false)
+        {
+            Console.WriteLine("Error: the account not active.");
         }
     }
     public void PrintTransactionHistory()
@@ -109,6 +114,14 @@ class ManagementSystem
         }
         return true;
     }
+    public void ApplyInterest()
+    {
+        if (AccountType.ToLower() == "savings")
+        {
+            _balance *=  1.02;
+        }
+    }
+
 
 
 
@@ -136,3 +149,4 @@ class Progrem
 
     }
 }
+
