@@ -4,13 +4,12 @@ using DutyLogAPI.Models;
 
 namespace DutyLogAPI.Controllers
 {
-    
     [ApiController]
     [Route("api/[controller]")]
-    public class DutyLogsControllers: ControllerBase
+    public class DutyLogsControllers : ControllerBase
     {
         public readonly List<DutyLog> _dutyLogs = DutyLogsData.dutyLogs;
-        
+
         private int _nextId = 6;
         [HttpGet]
         public ActionResult<IEnumerable<DutyLog>> GetAllFlightLogs()
@@ -18,7 +17,7 @@ namespace DutyLogAPI.Controllers
             return Ok(_dutyLogs);
         }
         [HttpGet("{id}")]
-        public ActionResult<DutyLog>GetDutyLogById(int id)
+        public ActionResult<DutyLog> GetDutyLogById(int id)
         {
             var log = _dutyLogs.FirstOrDefault(r => r.Id == id);
             if (log == null)
@@ -27,9 +26,9 @@ namespace DutyLogAPI.Controllers
             }
             return Ok(log);
         }
- 
+
         [HttpPost]
-        public ActionResult<DutyLog>CreateDutyLog(DutyLog dutyLog)
+        public ActionResult<DutyLog> CreateDutyLog(DutyLog dutyLog)
         {
             dutyLog.Id = _nextId++;
             _dutyLogs.Add(dutyLog);
@@ -39,7 +38,7 @@ namespace DutyLogAPI.Controllers
             dutyLog);
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateDutyLog(int id,DutyLog updateDutyLog)
+        public IActionResult UpdateDutyLog(int id, DutyLog updateDutyLog)
         {
             var existingLog = _dutyLogs.FirstOrDefault(l => l.Id == id);
             if (existingLog == null)
@@ -50,7 +49,7 @@ namespace DutyLogAPI.Controllers
             existingLog.ShiftStart = updateDutyLog.ShiftStart;
             existingLog.ShiftEnd = updateDutyLog.ShiftEnd;
             existingLog.Remarks = updateDutyLog.Remarks;
-            return NoContent();        
+            return NoContent();
         }
         [HttpDelete("{id}")]
         public IActionResult DeleteDutyLodById(int id)
@@ -62,6 +61,17 @@ namespace DutyLogAPI.Controllers
             }
             _dutyLogs.Remove(log);
             return NoContent();
+        }
+        [HttpGet("search")]
+        public ActionResult<IEnumerable<DutyLog>> GetByDescription([FromQuery] string description)
+        {
+            if(string.IsNullOrWhiteSpace(description))
+            {
+                return BadRequest("description parameter cannot be empty");
+            }
+            var log = _dutyLogs.Where(l => l.Remarks.Contains(description, StringComparison.OrdinalIgnoreCase));
+            
+            return Ok(log);
         }
     }
 }

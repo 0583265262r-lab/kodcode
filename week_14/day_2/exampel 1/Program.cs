@@ -52,11 +52,32 @@ namespace Demo
             Console.WriteLine(idAndPriority);
             //foreach(var id in idAndPriority)
             //    Console.WriteLine(id);
-
             var idofPriority = reports
                 .OrderByDescending(r => r.Priority)
                 .Select(r => new { r.Id, r.Priority }).ToList();
             //Console.WriteLine(string.Join(", ", idofPriority));
+            var byZoneThenPriority = reports
+                 .OrderBy(r => r.Zone)
+                 .ThenByDescending(r => r.Priority)
+                 .Select(r => new {r.Id ,r.Zone,r.Priority});
+            //Console.WriteLine(string.Join(", ", byZoneThenPriority));
+            var topSignalStrength = reports
+                .OrderByDescending(r => r.SignalStrength)
+                .Take(3)
+                .Select(r => new {r.Id,r.SignalStrength}).ToList();
+            //Console.WriteLine(string.Join(", ", topSignalStrength));
+            var SkipTop5Priority = reports
+                .OrderByDescending(r => r.Priority)
+                .Skip(5)
+                .Select(r => r.Id);
+            //Console.WriteLine(string.Join(", ", SkipTop5Priority));
+            var countPriority5 = reports
+                .GroupBy(r=> r.Priority == 5)
+                .Count()
+
+
+
+
 
 
 

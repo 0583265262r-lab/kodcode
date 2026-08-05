@@ -1,0 +1,14 @@
+﻿using LibraryManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
+namespace LibraryManagementSystem.Data
+{
+    public class LibraryDbContext: DbContext
+    {
+        public LibraryDbContext(DbContextOptions<LibraryDbContext>options)
+            :base(options)
+        {
+        }
+        public DbSet<BookModel> Books => Set<BookModel>();
+        public DbSet<MemberModel> Members => Set<MemberModel>();
+    }
+}

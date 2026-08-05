@@ -144,9 +144,7 @@ class Progrem
         Console.WriteLine(m);
         m.Withdraw(6909970);
         m.PrintTransactionHistory();
-
-
-
     }
 }
+
 

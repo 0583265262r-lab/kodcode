@@ -1,0 +1,6 @@
+@SmartLockerApi_HostAddress = http://localhost:5183
+
+GET {{SmartLockerApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

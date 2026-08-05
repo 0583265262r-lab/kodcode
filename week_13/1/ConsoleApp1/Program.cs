@@ -1,70 +1,72 @@
 ﻿using System;
 using static System.Net.Mime.MediaTypeNames;
 namespace Demo
-{ 
-enum Sensor
+{
+     public abstract class SatelliteImage
     {
-    EO,
-    SAR,
-    IR
-};
-
-    class ImageMetadataManager
-    {
-        public int Id;
-        public double CloudCover;
-        public Sensor sensor1;
-
-        public ImageMetadataManager(int id, double cloudCover, Sensor sensor)
+        public int Id { get; }
+        public double CloudCover { get; }
+        public SatelliteImage(int id , double cloudCover)
         {
             Id = id;
-            CloudCover = cloudCover;
-            sensor1 = sensor;
+            CloudCover = IsValid.Validate(cloudCover);
         }
+        public abstract string SensorName { get; }
+        public abstract int BasePriority { get; }
 
+        public int Score() => BasePriority - (int)CloudCover;
+     }
 
-        public bool IsValid()
+    public static class IsValid
+    {
+        public static double Validate(double cloudCover)
         {
-            if (CloudCover > 100 || CloudCover < 0)
-                return false;
-            return true;
+            if (cloudCover < 0 || cloudCover > 100)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(cloudCover), cloudCover,
+                    "CloudCover must be between 0 and 100.");
+            }
+            return cloudCover;
         }
-        public string Format()
+    }
+    public class SarImage: SatelliteImage
+    { 
+        public SarImage(int id,double cloudCover )
+            :base(id,cloudCover) { }
+        public override string SensorName => "SAR";
+        public override int BasePriority => 100;
+    }
+    public class ImageFormatter
+    {
+        public static string Format(SatelliteImage image)
         {
-            return $"ImageId: {Id} | CloudCover: {CloudCover}% | Sensor: {sensor1
-                }";
+            return $"Image {image.Id}: {(int)image.CloudCover}% cloud [{image.SensorName}]";
         }
-        public void SaveToFile(string path)
-        {
-            if (! File.Exists(path))
-            {
-                File.Create(path);
-                File.WriteAllText(path, Format());
-            }
-            if (File.ReadAllText(path).Length > 0)
-            {
-                File.AppendAllText(path, Format());
-            }
-            else
-            {
-                File.WriteAllText(path, Format());
-            }
+    }
+    public class Repository<T> where T : SatelliteImage
+    {
+        private List<T> _items = new();
 
-        }
-        public int Score()
+        public void Add(T item) => _items.Add(item);
+        public IReadOnlyList<T> Items => _items;
+
+        public int TotalScore() => _items.Sum(image => image.Score());
+    }
+    class program
+    {
+        static void Main()
         {
-            switch (sensor1)
+            var repo = new Repository<SatelliteImage>();
+
+            repo.Add(new SarImage(7, 148));
+            //repo.Add(new EoImage(8, 35));
+            //repo.Add(new IrImage(9, 10));
+            foreach (var image in repo.Items)
             {
-                case Sensor.SAR:
-                    return 100 - (int)CloudCover;
-                case Sensor.EO:
-                    return 60 - (int)CloudCover;
-                case Sensor.IR:
-                    return 40 - -(int)CloudCover;
-                default:
-                    return 0;   
+                Console.WriteLine(ImageFormatter.Format(image));
+                Console.WriteLine(image.Score());
             }
         }
-
     }
 }

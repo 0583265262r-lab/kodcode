@@ -62,10 +62,7 @@ class SignalInterceptLog
                 {
                     classification.Add(GetClassification(newStatus));
                     n = 1;
-                }
-
-                    
-
+                }                
             }
         }
 
@@ -84,8 +81,7 @@ class SignalInterceptLog
                 Console.WriteLine("invalid input");
             }
         }
-
-        
+       
     }
     static int FindById(List<string> id)
     {

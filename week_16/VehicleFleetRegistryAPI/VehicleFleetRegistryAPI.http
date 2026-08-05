@@ -1,0 +1,10 @@
+@VehicleFleetRegistryAPI_HostAddress = https://localhost:7057
+
+GET {{VehicleFleetRegistryAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{VehicleFleetRegistryAPI_HostAddress}}/api/[Controller]/all-vehicles
+
+###

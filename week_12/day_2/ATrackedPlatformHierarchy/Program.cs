@@ -69,7 +69,6 @@ abstract class Platform
     static List<Platform> AllPlatforms()
         
     {
-        //AirPlatform p1 = new (1, 4, 54.5,525);
         List<Platform> allPlatforms = [];
         allPlatforms.Add(new AirPlatform(1,54.64,334,124));
         allPlatforms.Add(new AirPlatform(2, 543, 243, -324));
