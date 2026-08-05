@@ -64,10 +64,20 @@ namespace ECommerceApi.Repositories
 
                 }).ToListAsync();
             }
-        public async Task<IEnumerable<Product>> SearchAsync(string? searchTerm,
+        public async Task<IEnumerable<ProductDto>> SearchAsync(string? searchTerm,
                          int? categoryId, decimal? minPrice, decimal? maxPrice)
         {
-            var query = _context.Products.Include(p => p.Category).AsQueryable();
+            var query = _context.Products
+                .Include(p => p.Category).Select(p => new ProductDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    StockQuantity = p.StockQuantity,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category.Name
+                    
+                }).AsQueryable();
             if (!string.IsNullOrEmpty(searchTerm))
                 query = query.Where(p => p.Name.Contains(searchTerm));
             if (categoryId.HasValue)
@@ -78,9 +88,18 @@ namespace ECommerceApi.Repositories
                 query = query.Where(p => p.Price <= maxPrice.Value);
             return await query.ToListAsync();
         }
-        public async Task<IEnumerable<Product>> GetSortedAsync(string? sortBy, bool descending)
+        public async Task<IEnumerable<ProductDto>> GetSortedAsync(string? sortBy, bool descending)
         {
-            var query = _context.Products.AsQueryable();
+            var query = _context.Products.Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                StockQuantity = p.StockQuantity,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category.Name
+
+            }).AsQueryable();
             query = sortBy?.ToLower() switch
             {
                 "price" => descending ? query.OrderByDescending(p => p.Price) :

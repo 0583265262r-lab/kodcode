@@ -7,8 +7,8 @@ namespace ECommerceApi.Repositories
     {
         Task<IEnumerable<ProductDto>> GetAllWithCategoryAsync();
         Task<IEnumerable<CategoryDto>> GetCategoriesWithFullTreeAsync();
-        Task<IEnumerable<Product>> SearchAsync(string? searchTerm, int? categoryId, decimal? minPrice, decimal? maxPrice);
-        Task<IEnumerable<Product>> GetSortedAsync(string? sortBy, bool  descending);
+        Task<IEnumerable<ProductDto>> SearchAsync(string? searchTerm, int? categoryId, decimal? minPrice, decimal? maxPrice);
+        Task<IEnumerable<ProductDto>> GetSortedAsync(string? sortBy, bool  descending);
         Task<IEnumerable<object>> GetProductRatingsAsync();
         Task<IEnumerable<object>> GetProductCountByCategoryAsync();
         Task<(IEnumerable<Product> Products, int TotalCount)> GetPagedAsync(int page, int pageSize);
