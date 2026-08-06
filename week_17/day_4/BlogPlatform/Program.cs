@@ -1,4 +1,5 @@
 using BlogPlatform.Data;
+using BlogPlatform.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,7 @@ builder.Services.AddDbContext<BlogDbContext>(options =>
     options.UseMySql(connectionString,
     ServerVersion.AutoDetect(connectionString));
 });
-
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
