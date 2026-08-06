@@ -41,7 +41,7 @@ namespace BlogPlatform.Repositories
         public async Task<IEnumerable<PostDto>> GetAllPostIsPublished(int? authorId, DateTime? startDate, DateTime? endDate)
         {
             var query = _context.Posts
-                .Include(p => p.Author).Select(p => new ProductDto
+                .Include(p => p.Author).Select(p => new PostDto
                 {
                     Id = p.Id,
                     Name = p.Name,
